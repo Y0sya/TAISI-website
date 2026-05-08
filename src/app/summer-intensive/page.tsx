@@ -10,15 +10,6 @@ export default function SummerIntensive() {
           <p className="font-semibold">
             Applications for the Summer 2026 intensive are now closed.
           </p>
-          <p>
-            Think you&rsquo;re an exceptional candidate? We want to make space for you.{" "}
-            <a
-              href="mailto:julian@taisi.ca"
-              className="text-accent hover:underline"
-            >
-              Reach out
-            </a>.
-          </p>
 
           <hr className="border-t border-gray-200 !my-8" />
 

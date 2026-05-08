@@ -295,7 +295,7 @@ function HomeInner() {
             <a href="/fellowships" className="text-accent hover:underline">Fellowship</a> applications reopen late summer.
           </p>
           <p>
-            <a href="/summer-intensive" className="text-accent hover:underline">Intensive</a> applications are closed, but exceptional candidates can still reach out.
+            <a href="/summer-intensive" className="text-accent hover:underline">Intensive</a> applications are closed.
           </p>
         </div>
       </section>
