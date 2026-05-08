@@ -206,7 +206,7 @@ function HomeInner() {
           <p>
             AI safety needs more researchers. People are pouring money into finding talent for the field.
             <br /><br />
-            <strong>That&rsquo;s why we exist:</strong> we have funding to find talented students like you, introduce you to AI safety, and train you into the cracked researchers that the field desperately needs.
+            <strong>That&rsquo;s why we exist:</strong> we have funding to find exceptional students like you, introduce you to AI safety, and train you into the cracked researchers that the field desperately needs.
           </p>
           <p>
             If you care about careers, there are exceptional careers to be made in AI safety. If you care about impact, this is a chance to have a critical impact on the world. This is the cutting edge.
