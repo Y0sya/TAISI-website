@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function SummerIntensive() {
   return (
     <main>
@@ -41,6 +43,19 @@ export default function SummerIntensive() {
           <p>
             Cohorts monthly May&ndash;August. No prior ML or AI safety experience required.
           </p>
+        </div>
+
+        <div className="border border-black/10 p-5 sm:p-6 max-w-[560px]">
+          <p className="text-[15px] sm:text-[16px] leading-[1.7] text-text mb-4">
+            <strong>Are you a researcher or Trajectory Labs staff?</strong> Let us know
+            which lunch dates work for you — cohorts are looking forward to meeting you.
+          </p>
+          <Link
+            href="/summer-intensive/researcher-lunches"
+            className="primary-cta px-6 py-3 text-[15px]"
+          >
+            Mark your availability &rarr;
+          </Link>
         </div>
       </section>
     </main>
