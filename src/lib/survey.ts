@@ -25,6 +25,7 @@ export const SURVEY = {
       careerBucketOther: "fldmYKHeG99AoZPsZ",
       dietaryRestrictions: "fldGsKJa34v9R3eJx",
       pronouns: "fldzN9aWGQ2WJUpTM",
+      photoConsent: "fldSdQHnVmPBLD9vX",
     },
   },
   pulse: {

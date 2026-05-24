@@ -79,6 +79,9 @@ export async function POST(req: NextRequest) {
     if (dietaryRestrictions && String(dietaryRestrictions).trim())
       fields[f.dietaryRestrictions] = String(dietaryRestrictions).trim();
 
+    const photoConsent = form.get("photoConsent");
+    fields[f.photoConsent] = String(photoConsent) === "true";
+
     await createAirtableRecord(SURVEY.intake.tableId, fields);
 
     // Write bio + photo back to the participant's Applications record.
