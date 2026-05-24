@@ -40,6 +40,8 @@ export default function IntakeSurveyPage() {
   const [counterfactual, setCounterfactual] = useState("");
   const [bio, setBio] = useState("");
   const [photo, setPhoto] = useState<File | null>(null);
+  const [pronouns, setPronouns] = useState("");
+  const [dietaryRestrictions, setDietaryRestrictions] = useState("");
 
   useAutosave(
     "intake",
@@ -55,6 +57,8 @@ export default function IntakeSurveyPage() {
       careerClarity,
       careerBucket,
       careerBucketOther,
+      pronouns,
+      dietaryRestrictions,
     },
     (saved) => {
       if (typeof saved.counterfactual === "string") setCounterfactual(saved.counterfactual);
@@ -68,6 +72,8 @@ export default function IntakeSurveyPage() {
       if (Array.isArray(saved.careerBucket) && saved.careerBucket.every((x) => typeof x === "string"))
         setCareerBucket(saved.careerBucket as string[]);
       if (typeof saved.careerBucketOther === "string") setCareerBucketOther(saved.careerBucketOther);
+      if (typeof saved.pronouns === "string") setPronouns(saved.pronouns);
+      if (typeof saved.dietaryRestrictions === "string") setDietaryRestrictions(saved.dietaryRestrictions);
     },
     submitted
   );
@@ -107,6 +113,8 @@ export default function IntakeSurveyPage() {
       "careerBucketOther",
       careerBucket.includes("Other") ? careerBucketOther : ""
     );
+    fd.set("pronouns", pronouns);
+    fd.set("dietaryRestrictions", dietaryRestrictions);
     if (photo) fd.set("photo", photo);
 
     try {
@@ -175,6 +183,27 @@ export default function IntakeSurveyPage() {
             accept="image/jpeg,image/png,image/jpg"
             required
             onFile={setPhoto}
+          />
+        </FormField>
+
+        <FormField label="Pronouns" hint="Optional. e.g. she/her, he/him, they/them.">
+          <input
+            type="text"
+            className="form-input"
+            value={pronouns}
+            onChange={(e) => setPronouns(e.target.value)}
+          />
+        </FormField>
+
+        <FormField
+          label="Dietary restrictions or allergies"
+          hint="So we can plan lunches. Leave blank if none."
+        >
+          <textarea
+            rows={2}
+            className="form-input resize-y"
+            value={dietaryRestrictions}
+            onChange={(e) => setDietaryRestrictions(e.target.value)}
           />
         </FormField>
 

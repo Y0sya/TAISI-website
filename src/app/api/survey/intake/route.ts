@@ -73,6 +73,12 @@ export async function POST(req: NextRequest) {
     const careerBucketOther = form.get("careerBucketOther");
     if (careerBucketOther) fields[f.careerBucketOther] = String(careerBucketOther);
 
+    const pronouns = form.get("pronouns");
+    if (pronouns && String(pronouns).trim()) fields[f.pronouns] = String(pronouns).trim();
+    const dietaryRestrictions = form.get("dietaryRestrictions");
+    if (dietaryRestrictions && String(dietaryRestrictions).trim())
+      fields[f.dietaryRestrictions] = String(dietaryRestrictions).trim();
+
     await createAirtableRecord(SURVEY.intake.tableId, fields);
 
     // Write bio + photo back to the participant's Applications record.

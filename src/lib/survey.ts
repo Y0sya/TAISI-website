@@ -23,6 +23,8 @@ export const SURVEY = {
       hoursPerWeek: "fldW9oj2786IPXN2s",
       careerBucket: "fldDWuJ7vNtEWD6f1",
       careerBucketOther: "fldmYKHeG99AoZPsZ",
+      dietaryRestrictions: "fldGsKJa34v9R3eJx",
+      pronouns: "fldzN9aWGQ2WJUpTM",
     },
   },
   pulse: {
