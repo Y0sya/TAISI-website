@@ -20,6 +20,9 @@ const WEEKS = [
   "Week 3: Mech interp",
 ];
 
+// Drop the description for display; the value submitted/matched stays full.
+const weekLabel = (w: string) => w.split(":")[0].trim();
+
 function PulseSurveyInner() {
   const params = useSearchParams();
   const weekParam = params.get("week");
@@ -123,7 +126,7 @@ function PulseSurveyInner() {
               </option>
               {WEEKS.map((w) => (
                 <option key={w} value={w}>
-                  {w}
+                  {weekLabel(w)}
                 </option>
               ))}
             </select>

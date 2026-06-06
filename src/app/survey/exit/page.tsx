@@ -40,6 +40,9 @@ const WEEKS_4 = [
   "Week 4: Project day",
 ];
 
+// Drop the description for display; the value submitted stays full.
+const weekLabel = (w: string) => w.split(":")[0].trim();
+
 const FUTURE_HELP = [
   "Yes, as a facilitator or TA",
   "Yes, as a speaker / lunch guest",
@@ -536,7 +539,7 @@ export default function ExitSurveyPage() {
                 <option value="">No preference</option>
                 {WEEKS_4.map((w) => (
                   <option key={w} value={w}>
-                    {w}
+                    {weekLabel(w)}
                   </option>
                 ))}
               </select>
