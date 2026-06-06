@@ -233,8 +233,6 @@ function PulseSurveyInner() {
                 onChange={(v) =>
                   setActivityRatings((prev) => ({ ...prev, [activity]: v }))
                 }
-                lowLabel="poor"
-                highLabel="loved it"
               />
             ))}
           </div>
