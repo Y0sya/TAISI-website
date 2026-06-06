@@ -52,17 +52,27 @@ export async function POST(req: NextRequest) {
       body.activityRatings && typeof body.activityRatings === "object"
         ? (body.activityRatings as Record<string, unknown>)
         : {};
+    const reasons =
+      body.activityReasons && typeof body.activityReasons === "object"
+        ? (body.activityReasons as Record<string, unknown>)
+        : {};
     const r = SURVEY.pulseRatings.fields;
     const ratingRows = Object.entries(ratings)
       .filter(([, v]) => typeof v === "number")
-      .map(([activity, value]) => ({
-        [r.submissionId]: submissionId,
-        [r.participant]: [participant.id],
-        [r.submittedAt]: submittedAt,
-        [r.week]: week,
-        [r.activity]: activity,
-        [r.rating]: value as number,
-      }));
+      .map(([activity, value]) => {
+        const row: Record<string, unknown> = {
+          [r.submissionId]: submissionId,
+          [r.participant]: [participant.id],
+          [r.submittedAt]: submittedAt,
+          [r.week]: week,
+          [r.activity]: activity,
+          [r.rating]: value as number,
+        };
+        // Capture the "why" only for low ratings.
+        if ((value as number) < 3 && reasons[activity])
+          row[r.reason] = String(reasons[activity]);
+        return row;
+      });
     if (ratingRows.length) {
       await createAirtableRecords(SURVEY.pulseRatings.tableId, ratingRows);
     }

@@ -92,6 +92,7 @@ function PulseSurveyInner() {
   const [dayNps, setDayNps] = useState<number | null>(null);
   const [week, setWeek] = useState(initialWeek || "");
   const [activityRatings, setActivityRatings] = useState<Record<string, number>>({});
+  const [activityReasons, setActivityReasons] = useState<Record<string, string>>({});
   const [readings, setReadings] = useState("");
   const [taFrequency, setTaFrequency] = useState("");
   const [notebookDifficulty, setNotebookDifficulty] = useState("");
@@ -109,11 +110,13 @@ function PulseSurveyInner() {
   useAutosave(
     `pulse-${week || "_"}`,
     participantId,
-    { dayNps, activityRatings, readings, taFrequency, notebookDifficulty, bestPart, whatChange, anythingElse },
+    { dayNps, activityRatings, activityReasons, readings, taFrequency, notebookDifficulty, bestPart, whatChange, anythingElse },
     (saved) => {
       if (typeof saved.dayNps === "number") setDayNps(saved.dayNps);
       if (saved.activityRatings && typeof saved.activityRatings === "object")
         setActivityRatings(saved.activityRatings as Record<string, number>);
+      if (saved.activityReasons && typeof saved.activityReasons === "object")
+        setActivityReasons(saved.activityReasons as Record<string, string>);
       if (typeof saved.readings === "string") setReadings(saved.readings);
       if (typeof saved.taFrequency === "string") setTaFrequency(saved.taFrequency);
       if (typeof saved.notebookDifficulty === "string") setNotebookDifficulty(saved.notebookDifficulty);
@@ -135,8 +138,14 @@ function PulseSurveyInner() {
     try {
       // Only send ratings for activities shown this week.
       const ratingsForWeek: Record<string, number> = {};
+      const reasonsForWeek: Record<string, string> = {};
       for (const a of activities) {
-        if (typeof activityRatings[a] === "number") ratingsForWeek[a] = activityRatings[a];
+        if (typeof activityRatings[a] === "number") {
+          ratingsForWeek[a] = activityRatings[a];
+          // Capture the "why" only for low ratings.
+          if (activityRatings[a] < 3 && activityReasons[a]?.trim())
+            reasonsForWeek[a] = activityReasons[a].trim();
+        }
       }
       const res = await fetch("/api/survey/pulse", {
         method: "POST",
@@ -146,6 +155,7 @@ function PulseSurveyInner() {
           week,
           dayNps,
           activityRatings: ratingsForWeek,
+          activityReasons: reasonsForWeek,
           readings,
           taFrequency,
           notebookDifficulty,
@@ -222,19 +232,37 @@ function PulseSurveyInner() {
             <p className="text-[15px] font-medium leading-[1.7]">
               Rate today&apos;s activities (1 = poor, 5 = loved it)
             </p>
-            {activities.map((activity) => (
-              <RatingScale
-                key={activity}
-                name={`activity-${activity}`}
-                label={activity}
-                min={1}
-                max={5}
-                value={activityRatings[activity] ?? null}
-                onChange={(v) =>
-                  setActivityRatings((prev) => ({ ...prev, [activity]: v }))
-                }
-              />
-            ))}
+            {activities.map((activity) => {
+              const rating = activityRatings[activity];
+              return (
+                <div key={activity} className="space-y-3">
+                  <RatingScale
+                    name={`activity-${activity}`}
+                    label={activity}
+                    min={1}
+                    max={5}
+                    value={rating ?? null}
+                    onChange={(v) =>
+                      setActivityRatings((prev) => ({ ...prev, [activity]: v }))
+                    }
+                  />
+                  {typeof rating === "number" && rating < 3 && (
+                    <input
+                      type="text"
+                      className="form-input"
+                      placeholder="What would have made this better? (one sentence)"
+                      value={activityReasons[activity] || ""}
+                      onChange={(e) =>
+                        setActivityReasons((prev) => ({
+                          ...prev,
+                          [activity]: e.target.value,
+                        }))
+                      }
+                    />
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
 
