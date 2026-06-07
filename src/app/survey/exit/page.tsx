@@ -16,7 +16,7 @@ import { useAutosave } from "@/lib/autosave";
 const CAREER_BUCKETS = [
   "Not currently pursuing AIS work",
   "Continuing in school / current job, AIS on the side",
-  "Planning to apply to fellowships or roles",
+  "Planning to apply to AI safety fellowships or roles (e.g. SPAR, MATS)",
   "Actively applying to AI safety roles or fellowships",
   "Other",
 ];
