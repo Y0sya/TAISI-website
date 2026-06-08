@@ -6,3 +6,6 @@ node_modules/
 .env*.local
 .DS_Store
 next-env.d.ts
+
+# Local-only ops script (not for repo)
+scripts/send-intensive-acceptances.mjs
