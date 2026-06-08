@@ -51,6 +51,17 @@ const FUTURE_HELP = [
   "Not right now",
 ];
 
+const BARRIERS = [
+  "Time / competing commitments (school, job)",
+  "Don't know what to do next / no clear opportunity",
+  "Don't feel skilled enough yet",
+  "Financial (need a salary, can't afford unpaid work)",
+  "Geographic / visa / relocation",
+  "Lost momentum after the cohort ended",
+  "Imposter feelings / don't feel I belong",
+  "Other",
+];
+
 type IntakePrefill = {
   knowledgeAis: number | null;
   knowledgeEvals: number | null;
@@ -87,6 +98,12 @@ export default function ExitSurveyPage() {
   const [knowledgeMech, setKnowledgeMech] = useState<number | null>(null);
   const [fieldFit, setFieldFit] = useState<number | null>(null);
   const [careerClarity, setCareerClarity] = useState<number | null>(null);
+  const [belonging, setBelonging] = useState<number | null>(null);
+  const [selfEfficacy, setSelfEfficacy] = useState<number | null>(null);
+  const [canNameOrgs, setCanNameOrgs] = useState("");
+  const [orgsList, setOrgsList] = useState("");
+  const [barriers, setBarriers] = useState<string[]>([]);
+  const [barriersOther, setBarriersOther] = useState("");
   const [favouriteParts, setFavouriteParts] = useState<string[]>([]);
   const [careerBucket, setCareerBucket] = useState<string[]>([]);
   const [careerBucketOther, setCareerBucketOther] = useState("");
@@ -117,6 +134,12 @@ export default function ExitSurveyPage() {
       knowledgeMech,
       fieldFit,
       careerClarity,
+      belonging,
+      selfEfficacy,
+      canNameOrgs,
+      orgsList,
+      barriers,
+      barriersOther,
       favouriteParts,
       careerBucket,
       careerBucketOther,
@@ -150,6 +173,12 @@ export default function ExitSurveyPage() {
       set("knowledgeMech", setKnowledgeMech, "number");
       set("fieldFit", setFieldFit, "number");
       set("careerClarity", setCareerClarity, "number");
+      set("belonging", setBelonging, "number");
+      set("selfEfficacy", setSelfEfficacy, "number");
+      set("canNameOrgs", setCanNameOrgs, "string");
+      set("orgsList", setOrgsList, "string");
+      set("barriers", setBarriers, "stringArray");
+      set("barriersOther", setBarriersOther, "string");
       set("programNps", setProgramNps, "number");
       set("favouriteParts", setFavouriteParts, "stringArray");
       set("futureHelp", setFutureHelp, "stringArray");
@@ -245,6 +274,12 @@ export default function ExitSurveyPage() {
             knowledgeMech,
             fieldFit,
             careerClarity,
+            belonging,
+            selfEfficacy,
+            canNameOrgs,
+            orgsList,
+            barriers,
+            barriersOther: barriers.includes("Other") ? barriersOther : "",
             careerBucket,
             careerBucketOther: careerBucket.includes("Other") ? careerBucketOther : "",
             commitment,
@@ -430,6 +465,26 @@ export default function ExitSurveyPage() {
             highLabel="10 = concrete plan"
           />
 
+          <RatingScale
+            name="belonging"
+            label="I feel like I belong in the AI safety community."
+            required
+            value={belonging}
+            onChange={setBelonging}
+            lowLabel="1 = strongly disagree"
+            highLabel="10 = strongly agree"
+          />
+
+          <RatingScale
+            name="selfEfficacy"
+            label="I could contribute to a real AI safety project today."
+            required
+            value={selfEfficacy}
+            onChange={setSelfEfficacy}
+            lowLabel="1 = strongly disagree"
+            highLabel="10 = strongly agree"
+          />
+
           <FormField label="Which best describes your AIS plans right now? (select all that apply)" required>
             <div className="space-y-2">
               {CAREER_BUCKETS.map((o) => {
@@ -456,6 +511,63 @@ export default function ExitSurveyPage() {
                 className="form-input"
                 value={careerBucketOther}
                 onChange={(e) => setCareerBucketOther(e.target.value)}
+              />
+            </FormField>
+          )}
+
+          <FormField
+            label="I can name at least 3 specific AI safety programs, fellowships, or orgs I could realistically apply to next."
+          >
+            <SelectWrapper>
+              <select
+                className="form-input form-select"
+                value={canNameOrgs}
+                onChange={(e) => setCanNameOrgs(e.target.value)}
+              >
+                <option value="">Select one</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </SelectWrapper>
+          </FormField>
+
+          <FormField
+            label="List the programs, fellowships, or orgs you could apply to next."
+            hint="Names are enough"
+          >
+            <textarea
+              rows={2}
+              className="form-input resize-y"
+              value={orgsList}
+              onChange={(e) => setOrgsList(e.target.value)}
+            />
+          </FormField>
+
+          <FormField label="What's most likely to stop you from staying engaged with AIS over the next 6 months? (select all that apply)">
+            <div className="space-y-2">
+              {BARRIERS.map((o) => {
+                const checked = barriers.includes(o);
+                return (
+                  <label key={o} className="flex items-center gap-2 text-[15px]">
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() => setBarriers(toggle(barriers, o))}
+                    />
+                    {o}
+                  </label>
+                );
+              })}
+            </div>
+          </FormField>
+
+          {barriers.includes("Other") && (
+            <FormField label="Other (specify)">
+              <input
+                type="text"
+                className="form-input"
+                value={barriersOther}
+                onChange={(e) => setBarriersOther(e.target.value)}
               />
             </FormField>
           )}

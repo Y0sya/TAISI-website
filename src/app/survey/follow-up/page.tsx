@@ -23,6 +23,17 @@ const AIS_INVOLVEMENT = [
   "Not currently active in AIS",
 ];
 
+const BARRIERS = [
+  "Time / competing commitments (school, job)",
+  "Don't know what to do next / no clear opportunity",
+  "Don't feel skilled enough yet",
+  "Financial (need a salary, can't afford unpaid work)",
+  "Geographic / visa / relocation",
+  "Lost momentum after the cohort ended",
+  "Imposter feelings / don't feel I belong",
+  "Other",
+];
+
 type ExitPrefill = {
   commitment: string;
   stayInTouch: string;
@@ -39,6 +50,12 @@ export default function FollowupSurveyPage() {
   const [involvement, setInvolvement] = useState<string[]>([]);
   const [fieldFit, setFieldFit] = useState<number | null>(null);
   const [careerClarity, setCareerClarity] = useState<number | null>(null);
+  const [belonging, setBelonging] = useState<number | null>(null);
+  const [selfEfficacy, setSelfEfficacy] = useState<number | null>(null);
+  const [canNameOrgs, setCanNameOrgs] = useState("");
+  const [orgsList, setOrgsList] = useState("");
+  const [barriers, setBarriers] = useState<string[]>([]);
+  const [barriersOther, setBarriersOther] = useState("");
   const [hoursPerWeek, setHoursPerWeek] = useState("");
   const [fellowshipOrJob, setFellowshipOrJob] = useState("");
   const [stillInTouch, setStillInTouch] = useState("");
@@ -50,6 +67,12 @@ export default function FollowupSurveyPage() {
       involvement,
       fieldFit,
       careerClarity,
+      belonging,
+      selfEfficacy,
+      canNameOrgs,
+      orgsList,
+      barriers,
+      barriersOther,
       hoursPerWeek,
       fellowshipOrJob,
       stillInTouch,
@@ -57,11 +80,18 @@ export default function FollowupSurveyPage() {
     (saved) => {
       if (typeof saved.fieldFit === "number") setFieldFit(saved.fieldFit);
       if (typeof saved.careerClarity === "number") setCareerClarity(saved.careerClarity);
+      if (typeof saved.belonging === "number") setBelonging(saved.belonging);
+      if (typeof saved.selfEfficacy === "number") setSelfEfficacy(saved.selfEfficacy);
+      if (typeof saved.canNameOrgs === "string") setCanNameOrgs(saved.canNameOrgs);
+      if (typeof saved.orgsList === "string") setOrgsList(saved.orgsList);
+      if (typeof saved.barriersOther === "string") setBarriersOther(saved.barriersOther);
       if (typeof saved.hoursPerWeek === "string") setHoursPerWeek(saved.hoursPerWeek);
       if (typeof saved.fellowshipOrJob === "string") setFellowshipOrJob(saved.fellowshipOrJob);
       if (typeof saved.stillInTouch === "string") setStillInTouch(saved.stillInTouch);
       if (Array.isArray(saved.involvement) && saved.involvement.every((x: unknown) => typeof x === "string"))
         setInvolvement(saved.involvement as string[]);
+      if (Array.isArray(saved.barriers) && saved.barriers.every((x: unknown) => typeof x === "string"))
+        setBarriers(saved.barriers as string[]);
     },
     submitted
   );
@@ -104,6 +134,12 @@ export default function FollowupSurveyPage() {
           fellowshipOrJob,
           fieldFit,
           careerClarity,
+          belonging,
+          selfEfficacy,
+          canNameOrgs,
+          orgsList,
+          barriers,
+          barriersOther: barriers.includes("Other") ? barriersOther : "",
           stillInTouch,
         }),
       });
@@ -207,6 +243,76 @@ export default function FollowupSurveyPage() {
           lowLabel="1 = no idea"
           highLabel="10 = concrete plan"
         />
+
+        <RatingScale
+          name="belonging"
+          label="I feel like I belong in the AI safety community."
+          value={belonging}
+          onChange={setBelonging}
+          lowLabel="1 = strongly disagree"
+          highLabel="10 = strongly agree"
+        />
+
+        <RatingScale
+          name="selfEfficacy"
+          label="I could contribute to a real AI safety project today."
+          value={selfEfficacy}
+          onChange={setSelfEfficacy}
+          lowLabel="1 = strongly disagree"
+          highLabel="10 = strongly agree"
+        />
+
+        <FormField label="I can name at least 3 specific AI safety programs, fellowships, or orgs I could realistically apply to next.">
+          <SelectWrapper>
+            <select
+              className="form-input form-select"
+              value={canNameOrgs}
+              onChange={(e) => setCanNameOrgs(e.target.value)}
+            >
+              <option value="">Select one</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </SelectWrapper>
+        </FormField>
+
+        <FormField
+          label="List the programs, fellowships, or orgs you could apply to next."
+          hint="Names are enough"
+        >
+          <textarea
+            rows={2}
+            className="form-input resize-y"
+            value={orgsList}
+            onChange={(e) => setOrgsList(e.target.value)}
+          />
+        </FormField>
+
+        <FormField label="What actually got in the way of staying engaged with AIS over the past 6 months? (select all that apply)">
+          <div className="space-y-2">
+            {BARRIERS.map((o) => (
+              <label key={o} className="flex items-center gap-2 text-[15px]">
+                <input
+                  type="checkbox"
+                  checked={barriers.includes(o)}
+                  onChange={() => setBarriers(toggle(barriers, o))}
+                />
+                {o}
+              </label>
+            ))}
+          </div>
+        </FormField>
+
+        {barriers.includes("Other") && (
+          <FormField label="Other (specify)">
+            <input
+              type="text"
+              className="form-input"
+              value={barriersOther}
+              onChange={(e) => setBarriersOther(e.target.value)}
+            />
+          </FormField>
+        )}
 
         <FormField
           label={

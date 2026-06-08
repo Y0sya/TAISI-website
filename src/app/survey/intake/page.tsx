@@ -48,6 +48,8 @@ export default function IntakeSurveyPage() {
   const [knowledgeMech, setKnowledgeMech] = useState<number | null>(null);
   const [fieldFit, setFieldFit] = useState<number | null>(null);
   const [careerClarity, setCareerClarity] = useState<number | null>(null);
+  const [belonging, setBelonging] = useState<number | null>(null);
+  const [selfEfficacy, setSelfEfficacy] = useState<number | null>(null);
   const [careerBucket, setCareerBucket] = useState<string[]>([]);
   const [careerBucketOther, setCareerBucketOther] = useState("");
 
@@ -64,6 +66,8 @@ export default function IntakeSurveyPage() {
       knowledgeMech,
       fieldFit,
       careerClarity,
+      belonging,
+      selfEfficacy,
       careerBucket,
       careerBucketOther,
       pronouns,
@@ -80,6 +84,8 @@ export default function IntakeSurveyPage() {
       if (typeof saved.knowledgeMech === "number") setKnowledgeMech(saved.knowledgeMech);
       if (typeof saved.fieldFit === "number") setFieldFit(saved.fieldFit);
       if (typeof saved.careerClarity === "number") setCareerClarity(saved.careerClarity);
+      if (typeof saved.belonging === "number") setBelonging(saved.belonging);
+      if (typeof saved.selfEfficacy === "number") setSelfEfficacy(saved.selfEfficacy);
       if (Array.isArray(saved.careerBucket) && saved.careerBucket.every((x) => typeof x === "string"))
         setCareerBucket(saved.careerBucket as string[]);
       if (typeof saved.careerBucketOther === "string") setCareerBucketOther(saved.careerBucketOther);
@@ -128,6 +134,8 @@ export default function IntakeSurveyPage() {
     if (knowledgeMech !== null) fd.set("knowledgeMech", String(knowledgeMech));
     if (fieldFit !== null) fd.set("fieldFit", String(fieldFit));
     if (careerClarity !== null) fd.set("careerClarity", String(careerClarity));
+    if (belonging !== null) fd.set("belonging", String(belonging));
+    if (selfEfficacy !== null) fd.set("selfEfficacy", String(selfEfficacy));
     fd.set("careerBucket", JSON.stringify(careerBucket));
     fd.set(
       "careerBucketOther",
@@ -357,6 +365,24 @@ export default function IntakeSurveyPage() {
             onChange={setCareerClarity}
             lowLabel="1 = no idea"
             highLabel="10 = concrete plan"
+          />
+
+          <RatingScale
+            name="belonging"
+            label="I feel like I belong in the AI safety community."
+            value={belonging}
+            onChange={setBelonging}
+            lowLabel="1 = strongly disagree"
+            highLabel="10 = strongly agree"
+          />
+
+          <RatingScale
+            name="selfEfficacy"
+            label="I could contribute to a real AI safety project today."
+            value={selfEfficacy}
+            onChange={setSelfEfficacy}
+            lowLabel="1 = strongly disagree"
+            highLabel="10 = strongly agree"
           />
 
           <FormField label="Which best describes your AIS plans right now? (select all that apply)" required>

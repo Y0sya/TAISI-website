@@ -58,6 +58,10 @@ export async function POST(req: NextRequest) {
     if (fieldFit !== null) fields[f.fieldFit] = fieldFit;
     const careerClarity = numOrNull(form.get("careerClarity"));
     if (careerClarity !== null) fields[f.careerClarity] = careerClarity;
+    const belonging = numOrNull(form.get("belonging"));
+    if (belonging !== null) fields[f.belonging] = belonging;
+    const selfEfficacy = numOrNull(form.get("selfEfficacy"));
+    if (selfEfficacy !== null) fields[f.selfEfficacy] = selfEfficacy;
 
     const careerBucketRaw = form.get("careerBucket");
     if (careerBucketRaw) {

@@ -42,6 +42,12 @@ export async function POST(req: NextRequest) {
     set(f.fellowshipOrJob, str(body.fellowshipOrJob));
     set(f.fieldFit, num(body.fieldFit));
     set(f.careerClarity, num(body.careerClarity));
+    set(f.belonging, num(body.belonging));
+    set(f.selfEfficacy, num(body.selfEfficacy));
+    set(f.canNameOrgs, str(body.canNameOrgs));
+    set(f.orgsList, str(body.orgsList));
+    set(f.barriers, arr(body.barriers));
+    set(f.barriersOther, str(body.barriersOther));
     set(f.stillInTouch, str(body.stillInTouch));
 
     await createAirtableRecord(SURVEY.followup.tableId, fields);
