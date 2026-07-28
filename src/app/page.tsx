@@ -213,14 +213,15 @@ function HomeInner() {
         />
 
         <div className="relative z-10 w-full max-w-[1200px] mx-auto px-5 sm:px-8 pt-28 sm:pt-8 pb-24 sm:-translate-y-[4vh]">
-          <h1 className="hero-title text-[2.75rem] sm:text-[4rem] md:text-[5.5rem] leading-[0.98] tracking-normal mb-7 sm:mb-8 md:mb-10 font-semibold">
-            AI safety needs more{" "}
+          <h1 className="hero-title text-[2.25rem] sm:text-[3.25rem] md:text-[4.5rem] leading-[0.98] tracking-normal mb-6 sm:mb-7 md:mb-8 font-semibold">
+            We train exceptional people to become AI safety{" "}
             <RotatingText />
           </h1>
 
-          <div className="space-y-2 text-[19px] sm:text-[23px] leading-[1.5] font-medium text-text max-w-[760px]">
+          <div className="space-y-1.5 text-[17px] sm:text-[20px] leading-[1.55] text-text-secondary max-w-[640px]">
             <p>AI systems are advancing faster than we can make them safe.</p>
             <p>The field needs more people.</p>
+            <p>We are a sister organization to AI safety groups at MIT, Harvard, and Cambridge.</p>
           </div>
 
           <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
