@@ -92,14 +92,21 @@ function ResearchGrid() {
     <div>
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-3 text-[17px] sm:text-[19px] text-text-secondary hover:text-navy transition-colors group"
+        className="flex items-center gap-2.5 text-[17px] sm:text-[19px] text-text-secondary hover:text-navy transition-colors group"
       >
-        <span
-          className="text-accent font-bold text-[17px] sm:text-[19px] transition-transform duration-200"
-          style={{ display: "inline-block", transform: open ? "rotate(90deg)" : "rotate(0deg)" }}
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="square"
+          className="text-accent shrink-0 transition-transform duration-200"
+          style={{ transform: open ? "rotate(90deg)" : "rotate(0deg)" }}
         >
-          &#8594;
-        </span>
+          <path d="M9 5l7 7-7 7" />
+        </svg>
         <span>Examples of AI safety work</span>
       </button>
       {open && (
@@ -152,42 +159,71 @@ function HomeInner() {
         {/* Hero background */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-no-repeat bg-cover bg-[#FDFDFE]"
+          className="pointer-events-none absolute inset-[-8%] bg-no-repeat bg-cover bg-center bg-[#FDFDFE]"
           style={{
-            backgroundImage: "url('/hero-observatory.webp')",
-            backgroundPosition: "right center",
+            backgroundImage: "url('/hero-skyline-1.png')",
+            transform: "translate(-3.5%, 3.5%) scale(0.92)",
           }}
         />
+
+        {/* Sailboat drifting right to left across the water */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#FDFDFE] from-25% via-[#FDFDFE]/60 via-65% to-transparent"
+          className="sailboat pointer-events-none z-[5]"
+          style={{
+            bottom: "2.2%",
+            "--sail-start": "103vw",
+            "--sail-end": "29.5vw",
+            animationDuration: "42s",
+          } as React.CSSProperties}
+        >
+          <Image
+            src="/sailboat-drift-v1.png"
+            alt=""
+            width={62}
+            height={80}
+            className="h-auto w-[67px]"
+          />
+        </div>
+
+        {/* Copy of the big sailboat pinned over the one drawn in the image,
+            so the drifting boat passes behind it */}
+        <div
+          aria-hidden
+          className="sailboat-overlay pointer-events-none z-[6]"
+          style={{ left: "64.5%", bottom: "0.6%" }}
+        >
+          <Image
+            src="/sailboat-cut-big-v2.png"
+            alt=""
+            width={76}
+            height={105}
+            className="h-auto w-[84px]"
+          />
+        </div>
+
+        {/* White fade layer above the boats; matches the drawing's blank
+            left side so the drifter dissolves with the image itself */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-[7]"
+          style={{
+            background: "linear-gradient(to right, #FDFDFE 30vw, rgba(253, 253, 254, 0) 48vw)",
+          }}
         />
 
         <div className="relative z-10 w-full max-w-[1200px] mx-auto px-5 sm:px-8 pt-28 sm:pt-8 pb-24 sm:-translate-y-[4vh]">
-          <h1 className="hero-title text-[2.25rem] sm:text-[3.15rem] md:text-[4.5rem] leading-[0.98] tracking-normal mb-7 sm:mb-8 md:mb-10 font-semibold">
-            We train exceptional people to become AI safety{" "}
+          <h1 className="hero-title text-[2.75rem] sm:text-[4rem] md:text-[5.5rem] leading-[0.98] tracking-normal mb-7 sm:mb-8 md:mb-10 font-semibold">
+            AI safety needs more{" "}
             <RotatingText />
           </h1>
 
-          <div className="space-y-4 sm:space-y-5 text-[17px] sm:text-[19px] leading-[1.7] text-text">
-            <p>
-              AI systems are advancing faster than we can make them safe.
-            </p>
-            <p>
-              The field needs more people.
-            </p>
-            <p>
-              We are a sister organization to AI safety groups at MIT, Harvard, and Cambridge.
-            </p>
+          <div className="space-y-2 text-[19px] sm:text-[23px] leading-[1.5] font-medium text-text max-w-[760px]">
+            <p>AI systems are advancing faster than we can make them safe.</p>
+            <p>The field needs more people.</p>
           </div>
 
           <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-            <a
-              href="/summer-intensive"
-              className="primary-cta px-7 py-3.5 text-[15px] sm:text-[16px]"
-            >
-              Express interest in a future cohort
-            </a>
             <HeroEmailCTA location={location} />
           </div>
         </div>
@@ -233,9 +269,6 @@ function HomeInner() {
             AI safety needs more researchers. People are pouring money into finding talent for the field.
             <br /><br />
             <strong>That&rsquo;s why we exist:</strong> we have funding to find exceptional people like you, introduce you to AI safety, and train you into the cracked researchers that this field desperately needs.
-          </p>
-          <p>
-            If you care about careers, there are exceptional careers to be made in AI safety. If you care about impact, this is a chance to have a critical impact on the world. This is the cutting edge.
           </p>
         </div>
 

@@ -9,7 +9,7 @@
   --color-text-secondary: #4A4A4A;
   --color-bg: #FFFFFF;
 
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-sans: var(--font-body), "Segoe UI", Helvetica, Arial, sans-serif;
 
   --animate-blink: blink 0.8s step-end infinite;
 }
@@ -37,6 +37,53 @@
 .intro-fade {
   opacity: 0;
   animation: intro-fade 500ms ease-out forwards;
+}
+
+@keyframes sail-across {
+  from { transform: translateX(var(--sail-start, 103vw)); }
+  to { transform: translateX(var(--sail-end, 29.5vw)); }
+}
+
+@keyframes sail-bob {
+  0%, 100% { transform: translateY(0) rotate(-1.25deg); }
+  50% { transform: translateY(4px) rotate(1.25deg); }
+}
+
+.sailboat {
+  position: absolute;
+  left: 0;
+  bottom: 12.5%;
+  animation: sail-across 110s linear infinite;
+}
+
+.sailboat > img {
+  /* White paper background disappears into the sketch's water */
+  mix-blend-mode: multiply;
+  animation: sail-bob 7s ease-in-out infinite;
+}
+
+/* Copy of the big sailboat pinned over the one drawn in the hero image,
+   layered above the drifting boat so it passes behind. */
+.sailboat-overlay {
+  position: absolute;
+  left: 60.3%;
+  bottom: 12.3%;
+  transform: translateX(-50%);
+}
+
+.sailboat-overlay > img {
+  /* Opaque patch of the hero image itself; occludes the drifting boat */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sailboat,
+  .sailboat > img {
+    animation: none;
+  }
+  .sailboat,
+  .sailboat-overlay {
+    display: none;
+  }
 }
 
 .form-input {
@@ -114,9 +161,6 @@
   font-size: 1.35rem;
   font-weight: 600;
   letter-spacing: 0;
-  text-decoration-line: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
 }
 
 @media (min-width: 640px) {
@@ -143,6 +187,7 @@ h3,
 h4,
 h5,
 h6,
-.hero-title {
+.hero-title,
+.font-title {
   font-family: var(--font-title), "Arial Narrow", Arial, sans-serif;
 }
