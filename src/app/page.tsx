@@ -174,7 +174,7 @@ function HomeInner() {
             bottom: "2.2%",
             "--sail-start": "103vw",
             "--sail-end": "29.5vw",
-            animationDuration: "42s",
+            animationDuration: "95s",
           } as React.CSSProperties}
         >
           <Image
@@ -218,12 +218,7 @@ function HomeInner() {
             <RotatingText />
           </h1>
 
-          <div className="space-y-2 text-[19px] sm:text-[23px] leading-[1.5] font-medium text-text max-w-[760px]">
-            <p>AI systems are advancing faster than we can make them safe.</p>
-            <p>The field needs more people.</p>
-          </div>
-
-          <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
             <HeroEmailCTA location={location} />
           </div>
         </div>
